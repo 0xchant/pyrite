@@ -1,0 +1,333 @@
+chain: bsc
+chain_id: 56
+native_symbol: BNB
+default_native_usd: 620.0
+block_time_ms: 450
+block_tag: latest
+explorer_tx_url: "https://bscscan.com/tx/{hash}"
+phalcon_chain: bsc
+
+contracts:
+  multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11"
+  wrapped_native: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+  usd_anchor: "0x55d398326f99059fF775485246999027B3197955"
+
+gas:
+  tx_type: legacy
+  min_gas_price_wei: 50000000
+  exec_gas_floor_wei: 51000000
+  max_fee_multiplier_bps: 11000
+  bundle_priority_fee_wei: 0
+  l1_fee_model: none
+
+submission:
+  mode: bep322_builders
+  builders:
+    - url: "https://singapore.bsc.blockrazor.xyz"
+      backend: "blockrazor"
+      bribe_recipient: "0x1266C6bE60392A8Ff346E8d5ECCd3E69dD9c5F20"
+      position_first: true
+    - url: "https://frankfurt.bsc.blockrazor.xyz"
+      backend: "blockrazor"
+      bribe_recipient: "0x1266C6bE60392A8Ff346E8d5ECCd3E69dD9c5F20"
+      position_first: true
+    - url: "https://puissant-builder.48.club"
+      backend: "48club"
+      bribe_recipient: "0x4848489f0b2BEdd788c696e2D79b6b69D7484848"
+      position_first: false
+    - url: "https://bsc-mainnet-builder.nodereal.io"
+      backend: "nodereal"
+      bribe_recipient: "0xffffFFFfFFffffffffffffffFfFFFfffFFFfFFfE"
+      position_first: false
+
+bidding:
+  mode: coinbase_bribe
+  min_funding_native: 0.0008
+  init_gas_hint: "0.003 BNB (~$1.80) for deploy + ~50 arb txs"
+  circuit_breaker_loss_usd: 0.35
+
+rpcs:
+  ws:
+    - "wss://bsc-rpc.publicnode.com"
+    - "wss://bsc.publicnode.com"
+  read:
+    - "https://singapore.bsc.blockrazor.xyz"
+    - "https://frankfurt.bsc.blockrazor.xyz"
+    - "https://bsc.rpc.blxrbdn.com"
+    - "https://bsc-dataseed.binance.org"
+    - "https://bsc-dataseed1.defibit.io"
+    - "https://bsc-dataseed1.ninicoin.io"
+    - "https://bsc-rpc.publicnode.com"
+    - "https://rpc.48.club"
+  broadcast:
+    - "https://puissant-builder.48.club"
+    - "https://bsc.rpc.blxrbdn.com"
+    - "https://rpc.48.club"
+    - "https://bsc-dataseed.binance.org"
+    - "https://bsc-dataseed1.binance.org"
+
+# Explicit sub-second Parlia hot-path tuning preserved for BSC.
+timing:
+  poll_interval_ms: 4
+  fast_poll_after_ms: 290
+  fast_poll_interval_ms: 1
+  discovery_budget_ms: 140
+  rpc_fast_ms: 38
+  rpc_fallback_ms: 140
+  rpc_receipts_timeout_ms: 110
+  rpc_call_timeout_ms: 180
+  rpc_bounded_timeout_ms: 550
+  rpc_get_logs_timeout_ms: 1800
+  rpc_gas_price_timeout_ms: 250
+  sim_timeout_ms: 1200
+  sim_fallback_budget_ms: 95
+  gas_refresh_blocks: 20
+  cache_save_blocks: 40
+  bundle_span_blocks: 6
+  passive_bundle_span_blocks: 10
+  backrun_span_blocks: 3
+  wait_receipt_ms: 2200
+  bundle_grace_ms: 10
+  bundle_http_timeout_ms: 650
+
+singletons:
+  univ4:
+    pool_manager: "0x28e2ea090877bf75740558f6bfb36a5ffee9e9df"
+    position_manager: "0x7a4a5c919ae2541aed11041a1aeee68f1287f95b"
+  infinity_cl:
+    pool_manager: "0xa0ffb9c1ce1fe56963b0321b32e7a0302114058b"
+    vault: "0x238a358808379702088667322f80ac48bad5e6c4"
+
+metric:
+  factory: "0x2a53833cc95548cf52c7b159110e22d3a9018f32"
+  oracles:
+    - "0x30a88bf894d1b806125a23ebf23d715496fd7102"
+    - "0xe844701934d9c6085b292e428f41b911cc0b3872"
+  seed_pools:
+    - "0xf3eb104c0773d79f69cabf1da938153ce0efafd6"
+    - "0xa00a8985fadb530db66a586b6a9909b1d3913814"
+    - "0xb3e1b7d9a262afdb093b2be19c62e82eb8d8f5e3"
+    - "0xb3adeb4a72948f68ccdc8c958a0be4bcea3c0677"
+    - "0xb433e680981782fd02bb9b4a041d05b78b584184"
+    - "0x47efe789f649e5371992dbb1a27ffdffcb026a29"
+    - "0x75ddbd00b7cb9f476f0c1d0046c616cc98022640"
+    - "0xe6422b4925842725b8aa953571dc03365928a641"
+    - "0x720117a6d678ef37cf9792df051da87f5809d117"
+    - "0x33299e5499a33bb122a6d6fe5214cdad9dc19478"
+
+mempool:
+  enabled: true
+  routers:
+    - name: PancakeV2Router
+      address: "0x10ED43C718714eb63d5aA57B78B54704E256024E"
+      family: pancake
+      supports_exact_output_single: false
+    - name: PancakeV3SwapRouter
+      address: "0x1b81D678ffb9C0263b24A97847620C99d213eB14"
+      family: pancake
+      supports_exact_output_single: false
+    - name: PancakeSmartRouter
+      address: "0x13f4EA83D0bd40E75C8222255bc855a974568Dd4"
+      family: pancake
+      supports_exact_output_single: true
+    - name: PancakeUniversalRouter
+      address: "0xd9C500DfF816a1Da21A48A732d3498Bf09dc9AEB"
+      family: pancake
+      supports_exact_output_single: false
+
+hub_tokens:
+  - symbol: USDT
+    address: "0x55d398326f99059fF775485246999027B3197955"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: true
+    is_pinned_stable: true
+  - symbol: WBNB
+    address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+    decimals: 18
+    approx_usd: 620.0
+    is_base_anchor: true
+    is_pinned_stable: false
+  - symbol: USDC
+    address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: true
+    is_pinned_stable: true
+  - symbol: FDUSD
+    address: "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: false
+    is_pinned_stable: true
+  - symbol: BUSD
+    address: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: true
+    is_pinned_stable: true
+  - symbol: BTCB
+    address: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+    decimals: 18
+    approx_usd: 90000.0
+    is_base_anchor: false
+    is_pinned_stable: false
+  - symbol: ETH
+    address: "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
+    decimals: 18
+    approx_usd: 3100.0
+    is_base_anchor: false
+    is_pinned_stable: false
+  - symbol: CAKE
+    address: "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+    decimals: 18
+    approx_usd: 2.5
+    is_base_anchor: false
+    is_pinned_stable: false
+  - symbol: DAI
+    address: "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: false
+    is_pinned_stable: true
+  - symbol: USD1
+    address: "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: true
+    is_pinned_stable: false
+  - symbol: U
+    address: "0xce24439f2d9c6a2289f741120fe202248b666666"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: false
+    is_pinned_stable: true
+
+factories:
+  - name: PancakeV2
+    address: "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9975
+    v3_tiers: []
+    supports_flash_swap: true
+  - name: PancakeV1
+    address: "0xbCFccbde45ce874adcb698cC183deBcF17952812"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9980
+    v3_tiers: []
+    supports_flash_swap: true
+  - name: PancakeV3
+    address: "0x0BFbCF9fa4f9C56B0F40a671Ad40E0805A091865"
+    dex_kind: pancake_v3
+    style: v3_fee
+    default_fee_num: 9975
+    v3_tiers: [100, 500, 2500, 10000]
+    supports_flash_swap: true
+  - name: BiSwapV2
+    address: "0x858E3312ed3A876947EA49d572A7C42DE08af7EE"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9980
+    v3_tiers: []
+    dynamic_fee_getter: true
+    supports_flash_swap: true
+  - name: ThenaV2
+    address: "0xAFD89d21BdB66d00817d4153E055830B1c2B3970"
+    dex_kind: solidly
+    style: solidly_get_pair
+    default_fee_num: 9980
+    v3_tiers: []
+  - name: ApeSwapV2
+    address: "0x0841BD0B734E4F5853f0dD8d7Ea041c241fb0Da6"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9980
+    v3_tiers: []
+  - name: SushiV2
+    address: "0xc35DADB65012eC5796536bD9864eD8773aBc74C4"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9970
+    v3_tiers: []
+    supports_flash_swap: true
+  - name: BabySwapV2
+    address: "0x86407bEa2078ea5f5EB5A52B2caA963bC1F889Da"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9970
+    v3_tiers: []
+  - name: MdexV2
+    address: "0x3CD1C46068dAEa5Ebb0d3f55F6915B10648062B8"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9970
+    v3_tiers: []
+  - name: UniV2Bsc
+    address: "0x8909Dc15e40173Ff4699343b6eB8132c65e18eC6"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9970
+    v3_tiers: []
+    supports_flash_swap: true
+  - name: UniV3Bsc
+    address: "0xdB1d10011AD0Ff90774D0C6Bb92e5C5c8b4461F7"
+    dex_kind: univ3
+    style: v3_fee
+    default_fee_num: 9970
+    v3_tiers: [100, 500, 3000, 10000]
+    supports_flash_swap: true
+  - name: LowFeeV3
+    address: "0xcb010ed373523942706f730b89792aa1c1597b20"
+    dex_kind: univ3
+    style: v3_fee
+    default_fee_num: 9999
+    v3_tiers: [2, 10, 50, 100, 500, 3000, 10000]
+    supports_flash_swap: true
+
+seed_flash_pools:
+  - flash_mode: 1
+    pool: "0x8F73b65B4caAf64FBA2aF91cC5D4a2A1318E5D8C"
+    base_token: "0x55d398326f99059fF775485246999027B3197955"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0x8F73b65B4caAf64FBA2aF91cC5D4a2A1318E5D8C"
+    base_token: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0x8F73b65B4caAf64FBA2aF91cC5D4a2A1318E5D8C"
+    base_token: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0x8F73b65B4caAf64FBA2aF91cC5D4a2A1318E5D8C"
+    base_token: "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0x8F73b65B4caAf64FBA2aF91cC5D4a2A1318E5D8C"
+    base_token: "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+    fee_bps: 0.0
+  - flash_mode: 3
+    pool: "0x92b7807bF19b7DDdf89b706143896d05228f3121"
+    base_token: "0x55d398326f99059fF775485246999027B3197955"
+    fee_bps: 1.0
+  - flash_mode: 3
+    pool: "0x172fcD41E0913e95784454622d1c3724f546f849"
+    base_token: "0x55d398326f99059fF775485246999027B3197955"
+    fee_bps: 1.0
+  - flash_mode: 3
+    pool: "0xbF72B6485E4b31601aFe7B0a1210Be2004D2B1d6"
+    base_token: "0x55d398326f99059fF775485246999027B3197955"
+    fee_bps: 1.0
+  - flash_mode: 3
+    pool: "0x172fcD41E0913e95784454622d1c3724f546f849"
+    base_token: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+    fee_bps: 1.0
+  - flash_mode: 3
+    pool: "0x36696169C63e42cd08ce11f5deeBbCeBae652050"
+    base_token: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+    fee_bps: 5.0
+  - flash_mode: 3
+    pool: "0x92b7807bF19b7DDdf89b706143896d05228f3121"
+    base_token: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
+    fee_bps: 1.0

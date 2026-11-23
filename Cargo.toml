@@ -1,0 +1,45 @@
+[package]
+name = "pyrite"
+version = "0.1.0"
+edition = "2021"
+description = "Pyrite (Fool's Gold) — Multi-chain EVM DAG atomic arbitrage engine, Flashbots MEV-Share client, CUDA CFMM solver, and compact Solidity flash-loan executor"
+license = "MIT"
+repository = "https://github.com/0xchant/pyrite"
+readme = "README.md"
+keywords = ["ethereum", "mev", "arbitrage", "defi", "flashbots"]
+categories = ["cryptography::cryptocurrencies", "finance"]
+
+[dependencies]
+alloy = { version = "1.8.3", default-features = false, features = [
+    "std",
+    "sol-types",
+    "consensus",
+    "eips",
+    "rlp",
+    "signer-local",
+    "network",
+    "rpc-types-eth",
+    "serde",
+    "k256",
+    "rand",
+] }
+tokio = { version = "1", features = ["full"] }
+tokio-tungstenite = { version = "0.26", default-features = false, features = ["connect", "rustls-tls-webpki-roots"] }
+futures-util = "0.3"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "gzip", "http2"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+clap = { version = "4", features = ["derive", "env"] }
+dotenvy = "0.15"
+eyre = "0.6"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+hex = "0.4"
+chrono = "0.4"
+libloading = "0.8"
+
+[profile.release]
+strip = true
+debug = false
+codegen-units = 16

@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  foundry:
+    name: Solidity (Foundry)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Build and test DagArbExecutor
+        working-directory: contracts
+        run: |
+          forge build
+          forge test --match-path test/DagArbExecutor.t.sol
+
+  rust:
+    name: Rust Tests, Release Build & Offline Demo
+    needs: foundry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build contract artifacts for Rust bytecode loader
+        working-directory: contracts
+        run: forge build
+      - name: Run Rust unit tests (release)
+        run: cargo test --release
+      - name: Build release binary
+        run: cargo build --release
+      - name: Smoke-test offline backtester on sample dataset
+        run: ./target/release/pyrite backtest --opps-file examples/sample_opps.jsonl --min-profit-usd 0.001
+
+  scripts:
+    name: Python Dashboard & Security Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Python syntax and dashboard security tests
+        run: |
+          python3 -m py_compile scripts/dashboard.py cuda/bench.py
+          python3 -m unittest -v scripts/test_dashboard.py

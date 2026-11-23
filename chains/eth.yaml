@@ -1,0 +1,292 @@
+chain: eth
+chain_id: 1
+native_symbol: ETH
+default_native_usd: 3100.0
+block_time_ms: 12000
+block_tag: latest
+explorer_tx_url: "https://etherscan.io/tx/{hash}"
+phalcon_chain: ethereum
+
+contracts:
+  multicall3: "0xcA11bde05977b3631167028862bE2a173976CA11"
+  wrapped_native: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  usd_anchor: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+  morpho_blue: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+
+gas:
+  tx_type: eip1559
+  min_gas_price_wei: 10000000
+  exec_gas_floor_wei: 10000000
+  max_fee_multiplier_bps: 13500
+  bundle_priority_fee_wei: 1000000
+  l1_fee_model: none
+
+submission:
+  mode: flashbots_relay
+  builders:
+    - url: "https://rpc.titanbuilder.xyz"
+      backend: "titanbuilder"
+    - url: "https://rpc.beaverbuild.org"
+      backend: "beaverbuild"
+    - url: "https://relay.flashbots.net"
+      backend: "flashbots"
+    - url: "https://rpc.quasar.win"
+      backend: "quasar"
+    - url: "https://rpc.buildernet.org"
+      backend: "buildernet"
+    - url: "https://rpc.eurekabuilder.xyz"
+      backend: "eurekabuilder"
+    - url: "https://rpc.bombora.build"
+      backend: "bombora"
+    - url: "https://rpc.bobthebuilder.xyz"
+      backend: "bobthebuilder"
+    - url: "https://rpc.btcs.com"
+      backend: "btcs"
+
+bidding:
+  mode: coinbase_bribe
+  min_funding_native: 0.0005
+  init_gas_hint: "0.005 ETH (~$15.00) for deploy + arb gas buffer"
+  circuit_breaker_loss_usd: 5.0
+
+rpcs:
+  ws:
+    - "wss://ethereum-rpc.publicnode.com"
+  read:
+    - "https://ethereum-rpc.publicnode.com"
+    - "https://eth.drpc.org"
+    - "https://rpc.mevblocker.io"
+  broadcast:
+    - "https://rpc.mevblocker.io"
+    - "https://ethereum-rpc.publicnode.com"
+    - "https://eth.drpc.org"
+
+# `timing:` intentionally omitted so all windows derive dynamically from `block_time_ms: 12000`
+# (e.g. `discovery_budget_ms: 4200`, `gas_refresh_blocks: 1`, `sim_timeout_ms: 3600`, `bundle_span_blocks: 2`).
+
+singletons:
+  univ4:
+    pool_manager: "0x000000000004444c5dc75cB358380D2e3dE08A90"
+    position_manager: "0xbD216513d74C8cf14cf4747E6AaA6420FF64ee9e"
+  balancer_v2:
+    vault: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+    seed_pool_ids:
+      - "0x3de27efa2f1aa663ae5d458857e731c129069f29000200000000000000000588"
+      - "0x0b09dea16768f0799065c475be02919503cb2a3500020000000000000000001a"
+      - "0x06df3b2bbb68adc8b0e302443692037ed9f91b42000200000000000000000063"
+      - "0xaac98ee71d4f8a156b6abaa6844cdb7789d086ce00020000000000000000001b"
+      - "0x7269efb54fb300ae742cabe6533ad5e6a2cc73c600020000000000000000052d"
+      - "0x03610f4f8b4539954b335295f67773843d27d5d20001000000000000000006fb"
+      - "0x3e5fa9518ea95c3e533eb377c001702a9aacaa32000200000000000000000052"
+
+metric:
+  factory: "0x2a53833cc95548cf52c7b159110e22d3a9018f32"
+  oracles:
+    - "0x30a88bf894d1b806125a23ebf23d715496fd7102"
+    - "0xe844701934d9c6085b292e428f41b911cc0b3872"
+  seed_pools:
+    - "0x13f6dba1e4fb281af01e90bc5cf61e0167eea9fa"
+    - "0x4f061b8e26eb762ed593d76c7567d54f320b9781"
+    - "0x5604fcafdd0a331f4c56480fccd5a21a83a61d7b"
+    - "0x699f65c23b141a817d9c950674bc0949c996174b"
+    - "0x77b21ddc997a450ae34100eecd352020e3f53baa"
+    - "0x82d873ee46d1187a39787572e426caddf0d2eef7"
+    - "0x8a6f55e8dab9cc15f6e1b9b1c33b4b999784e60e"
+    - "0x8d37caecae9c5aa116f29269728253a494cc2947"
+    - "0x93f00820a5e6d04dea1a7c0e7532ba834d93e410"
+    - "0x99125a7187d8a730345b0bf9ba5af7465e58292e"
+    - "0xaef2ad7abb651945e6d24276715f25bded0ad41e"
+    - "0xb86f8e45e12bff145fa4e23fa173a1f09dcd1351"
+    - "0xb983153f242aed756ba7b6f03536a6fbab31779a"
+    - "0xc7fbcfb1b9b930c5c867f08273827f716812c357"
+    - "0xda1264b94dc91b38b02fa4b15c3c2dd254113a92"
+    - "0xe28c18965ab110e9db39242566a754b7abbc425e"
+    - "0xe9c19e5bd10e5096519fe1d2a9d783f79b8211da"
+    - "0xf3ef95db4bd1c4407ccff9b3bde19fc1cf4d6eb7"
+
+mempool:
+  enabled: true
+  routers:
+    - name: UniV2Router02
+      address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+      family: uniswap
+      supports_exact_output_single: false
+    - name: UniV3SwapRouter02
+      address: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45"
+      family: uniswap
+      supports_exact_output_single: true
+    - name: UniUniversalRouter
+      address: "0x66a9893cc07d91d95644aedd05d03f95e1dba8af"
+      family: uniswap
+      supports_exact_output_single: false
+    - name: UniUniversalRouterOld
+      address: "0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD"
+      family: uniswap
+      supports_exact_output_single: false
+
+mev_share:
+  enabled: true
+  sse_url: "https://mev-share.flashbots.net"
+  relay_url: "https://relay.flashbots.net"
+  min_swap_usd: 50.0
+  max_blocks_ahead: 3
+  builders:
+    - "flashbots"
+    - "Titan"
+    - "beaverbuild.org"
+    - "Quasar"
+    - "Eureka"
+    - "Bombora"
+    - "bobthebuilder"
+    - "BTCS"
+    - "rsync"
+    - "f1b.io"
+    - "builder0x69"
+
+hub_tokens:
+  - symbol: WETH
+    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    decimals: 18
+    approx_usd: 3100.0
+    is_base_anchor: true
+    is_pinned_stable: false
+  - symbol: USDC
+    address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    decimals: 6
+    approx_usd: 1.0
+    is_base_anchor: true
+    is_pinned_stable: true
+  - symbol: USDT
+    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    decimals: 6
+    approx_usd: 1.0
+    is_base_anchor: true
+    is_pinned_stable: true
+  - symbol: WBTC
+    address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
+    decimals: 8
+    approx_usd: 90000.0
+    is_base_anchor: false
+    is_pinned_stable: false
+  - symbol: DAI
+    address: "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+    decimals: 18
+    approx_usd: 1.0
+    is_base_anchor: true
+    is_pinned_stable: true
+  - symbol: wstETH
+    address: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
+    decimals: 18
+    approx_usd: 3600.0
+    is_base_anchor: false
+    is_pinned_stable: false
+
+factories:
+  - name: UniV2
+    address: "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9970
+    v3_tiers: []
+    supports_flash_swap: true
+  - name: SushiV2
+    address: "0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9970
+    v3_tiers: []
+    supports_flash_swap: true
+  - name: PancakeV2
+    address: "0x1097053Fd2ea711dad45caCcc45EfF7548fCB362"
+    dex_kind: univ2
+    style: univ2
+    default_fee_num: 9975
+    v3_tiers: []
+    supports_flash_swap: true
+  - name: UniV3
+    address: "0x1F98431c8aD98523631AE4a59f267346ea31F984"
+    dex_kind: univ3
+    style: v3_fee
+    default_fee_num: 9970
+    v3_tiers: [100, 500, 3000, 10000]
+    supports_flash_swap: true
+  - name: PancakeV3
+    address: "0x0BFbCF9fa4f9C56B0F40a671Ad40E0805A091865"
+    dex_kind: pancake_v3
+    style: v3_fee
+    default_fee_num: 9975
+    v3_tiers: [100, 500, 2500, 10000]
+    supports_flash_swap: true
+  - name: SushiV3
+    address: "0xbACEB8eC6b9355Dfc0269C18bac9d6E2Bdc29C4F"
+    dex_kind: univ3
+    style: v3_fee
+    default_fee_num: 9970
+    v3_tiers: [100, 500, 3000, 10000]
+    supports_flash_swap: true
+
+seed_flash_pools:
+  - flash_mode: 1
+    pool: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    base_token: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    base_token: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    base_token: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    base_token: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    base_token: "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+    fee_bps: 0.0
+  - flash_mode: 1
+    pool: "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb"
+    base_token: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
+    fee_bps: 0.0
+  - flash_mode: 2
+    pool: "0x3416cF6C708Da44DB2624D63ea0AAef7113527C6"
+    base_token: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    fee_bps: 1.0
+  - flash_mode: 2
+    pool: "0x3416cF6C708Da44DB2624D63ea0AAef7113527C6"
+    base_token: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    fee_bps: 1.0
+  - flash_mode: 2
+    pool: "0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640"
+    base_token: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    fee_bps: 5.0
+  - flash_mode: 2
+    pool: "0x11b815efB8f581194ae79006d24E0d814B7697F6"
+    base_token: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    fee_bps: 5.0
+  - flash_mode: 7
+    pool: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+    base_token: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    fee_bps: 0.0
+  - flash_mode: 7
+    pool: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+    base_token: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+    fee_bps: 0.0
+  - flash_mode: 7
+    pool: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+    base_token: "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+    fee_bps: 0.0
+  - flash_mode: 7
+    pool: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+    base_token: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
+    fee_bps: 0.0
+  - flash_mode: 7
+    pool: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+    base_token: "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+    fee_bps: 0.0
+  - flash_mode: 7
+    pool: "0xBA12222222228d8Ba445958a75a0704d566BF2C8"
+    base_token: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0"
+    fee_bps: 0.0

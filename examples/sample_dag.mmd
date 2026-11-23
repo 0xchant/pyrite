@@ -1,0 +1,21 @@
+flowchart LR
+    FLASH["Flash Loan: 4.50 WETH (Morpho Blue / Balancer Vault 0% fee)"]
+    WETH_IN["WETH (Split Inputs)"]
+    POOL1["UniV3 WETH/USDC (5bps)\n2.90 WETH -> 8,992 USDC"]
+    POOL2["UniV2 WETH/USDC (30bps)\n1.60 WETH -> 4,946 USDC"]
+    USDC_MID["USDC (Merged Hub: 13,938 USDC)"]
+    POOL3["UniV4 USDC/USDT (1bps)\n6,200 USDC -> 6,201 USDT"]
+    POOL4["UniV3 USDC/WETH (5bps)\n7,738 USDC -> 2.509 WETH"]
+    POOL5["Balancer V2 USDT/WETH\n6,201 USDT -> 2.008 WETH"]
+    REPAY["Repay 4.50 WETH + Gas/Bribe Bid -> Net Delta Retained in Executor"]
+
+    FLASH --> WETH_IN
+    WETH_IN -->|"shareBps=6444"| POOL1
+    WETH_IN -->|"shareBps=3556"| POOL2
+    POOL1 --> USDC_MID
+    POOL2 --> USDC_MID
+    USDC_MID -->|"shareBps=4448"| POOL3
+    USDC_MID -->|"shareBps=5552"| POOL4
+    POOL3 --> POOL5
+    POOL4 --> REPAY
+    POOL5 --> REPAY

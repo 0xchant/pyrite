@@ -1,0 +1,40 @@
+{
+  "chain": "eth",
+  "mode": {
+    "dry_run": true,
+    "min_profit_usd": 0.001,
+    "target_usd": 50.0,
+    "max_blocks": null
+  },
+  "rpcs": {
+    "read": [],
+    "ws": [],
+    "broadcast": [],
+    "bundle": []
+  },
+  "mev_share": {
+    "enabled": true,
+    "sse_url": "https://mev-share.flashbots.net",
+    "relay_url": "https://relay.flashbots.net",
+    "min_swap_usd": 50.0,
+    "max_blocks_ahead": 3,
+    "builders": []
+  },
+  "solver": {
+    "mode": "cpu",
+    "gpu_lib": "",
+    "gpu_budget_ms": 25,
+    "gpu_max_gas_limit": 1200000,
+    "gpu_enable_layer2": true,
+    "gpu_base_tx_gas": 120000,
+    "gpu_gas_scale": 1.0
+  },
+  "executors": {
+    "eth": "",
+    "bsc": "",
+    "base": ""
+  },
+  "logging": {
+    "rust_log": "info"
+  }
+}
